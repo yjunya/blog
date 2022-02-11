@@ -3833,6 +3833,19 @@ type StaticImageSortInput = {
   readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
 };
 
+type BlogIndexQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type BlogIndexQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }>, readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<(
+      Pick<MarkdownRemark, 'excerpt'>
+      & { readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<Pick<Frontmatter, 'date' | 'title' | 'description'>> }
+    )> } };
+
+type pageUsersyjunyamainworkspaceblogsrcpages404Tsx3159585216QueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type pageUsersyjunyamainworkspaceblogsrcpages404Tsx3159585216Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
+
 type SeoQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3878,19 +3891,6 @@ type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = Pick<ImageSharpFluid, 't
 type GatsbyImageSharpFluid_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpFluid_withWebp_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
-
-type BlogIndexQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type BlogIndexQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }>, readonly allMarkdownRemark: { readonly nodes: ReadonlyArray<(
-      Pick<MarkdownRemark, 'excerpt'>
-      & { readonly fields: Maybe<Pick<Fields, 'slug'>>, readonly frontmatter: Maybe<Pick<Frontmatter, 'date' | 'title' | 'description'>> }
-    )> } };
-
-type pageUsersyjunyamainworkspacegatsbyTypscriptSamplesrcpages404Tsx3159585216QueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type pageUsersyjunyamainworkspacegatsbyTypscriptSamplesrcpages404Tsx3159585216Query = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
 
 type PagesQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
