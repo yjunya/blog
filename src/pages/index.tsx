@@ -1,8 +1,23 @@
-import React, { FC } from "react"
+/** @jsx jsx */
+import { FC } from "react"
+import { jsx, css } from "@emotion/react"
 import { Link, graphql, PageProps } from "gatsby"
 
 import Seo from "~/components/Seo"
 import Layout from "~/components/Layout"
+
+const postsTopStyles = css({
+  paddingTop: "16px",
+  fontWeight: "bold",
+  fontSize: "16px",
+  display: "flex",
+  justifyContent: "center",
+})
+
+const postListItemStyles = css({
+  marginBottom: "32px",
+  marginTop: "32px",
+})
 
 const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
   data,
@@ -23,7 +38,7 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
   return (
     <Layout location={location} title={siteTitle}>
       <Seo title="All posts" />
-      <div className="posts-top">All Posts</div>
+      <div css={postsTopStyles}>All Posts</div>
       <hr />
       <ol style={{ listStyle: "none" }}>
         {posts.map(post => {
@@ -32,7 +47,7 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
           return (
             <li key={post.fields?.slug}>
               <article
-                className="post-list-item"
+                css={postListItemStyles}
                 itemScope
                 itemType="http://schema.org/Article"
               >
