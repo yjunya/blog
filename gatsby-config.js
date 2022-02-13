@@ -14,6 +14,7 @@ module.exports = {
     },
   },
   plugins: [
+    "gatsby-plugin-emotion",
     {
       resolve: `gatsby-plugin-root-import`,
       options: {

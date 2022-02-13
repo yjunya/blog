@@ -1,15 +1,34 @@
-import React, { FC } from "react"
+/** @jsx jsx */
+import { FC } from "react"
+import { jsx, css } from "@emotion/react"
 import { Link, graphql, PageProps } from "gatsby"
 
 import Layout from "~/components/Layout"
 import Seo from "~/components/Seo"
+
+const titleStyles = css({
+  marginTop: "48px",
+  paddingBottom: "32px",
+})
+
+const navigationStyles = css({
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "space-between",
+  listStyle: "none",
+  padding: 0,
+})
+
+const spaceStyles = css({
+  marginTop: "128px",
+})
 
 const BlogPostTemplate: FC<PageProps<GatsbyTypes.BlogPostBySlugQuery>> = ({
   data,
   location,
 }) => {
   const post = data.markdownRemark
-  const siteTitle = data.site?.siteMetadata?.title || `Title`
+  const siteTitle = data.site?.siteMetadata?.title || "Title"
   const { previous, next } = data
 
   return (
@@ -18,32 +37,20 @@ const BlogPostTemplate: FC<PageProps<GatsbyTypes.BlogPostBySlugQuery>> = ({
         title={post?.frontmatter?.title || ""}
         description={post?.frontmatter?.description || post?.excerpt}
       />
-      <article
-        className="blog-post"
-        itemScope
-        itemType="http://schema.org/Article"
-      >
-        <header>
+      <article itemScope itemType="http://schema.org/Article">
+        <div css={titleStyles}>
           <h1 itemProp="headline">{post?.frontmatter?.title}</h1>
           <p>{post?.frontmatter?.date}</p>
-        </header>
+        </div>
         <section
           dangerouslySetInnerHTML={{ __html: post?.html || "" }}
           itemProp="articleBody"
         />
-        <div />
+        <div css={spaceStyles} />
         <hr />
       </article>
-      <nav className="blog-post-nav">
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
+      <nav>
+        <ul css={navigationStyles}>
           <li>
             {previous && (
               <Link to={previous?.fields?.slug || ""} rel="prev">

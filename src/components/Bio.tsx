@@ -1,16 +1,43 @@
-/**
- * Bio component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.com/docs/use-static-query/
- */
-
-import React, { VFC } from "react"
+/** @jsx jsx */
+import { Fragment, VFC } from "react"
+import { jsx, css } from "@emotion/react"
 import { useStaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
 import { IconContext } from "@react-icons/all-files"
 import { AiFillGithub } from "@react-icons/all-files/ai/AiFillGithub"
 import { AiFillTwitterCircle } from "@react-icons/all-files/ai/AiFillTwitterCircle"
+
+const bioStyles = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+})
+
+const snsIconsStyles = css({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  marginTop: "40px",
+})
+
+const snsIconStyles = css({
+  marginRight: "8px",
+  marginLeft: "8px",
+})
+
+const bioMeStyles = css({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  marginTop: "8px",
+})
+
+const bioMeAvatarStyles = css({
+  marginRight: "8px",
+  marginBottom: "0px",
+  minWidth: "50px",
+  borderRadius: "100%",
+})
 
 const Bio: VFC = () => {
   const data = useStaticQuery<GatsbyTypes.BioQueryQuery>(graphql`
@@ -35,20 +62,20 @@ const Bio: VFC = () => {
   const social = data.site?.siteMetadata?.social
 
   return (
-    <div className="bio">
+    <div css={bioStyles}>
       <IconContext.Provider value={{ color: "white", size: "50px" }}>
-        <div className="sns-icons">
-          <a href={social?.github}>
+        <div css={snsIconsStyles}>
+          <a css={snsIconStyles} href={social?.github}>
             <AiFillGithub />
           </a>
-          <a href={social?.twitter}>
+          <a css={snsIconStyles} href={social?.twitter}>
             <AiFillTwitterCircle />
           </a>
         </div>
       </IconContext.Provider>
-      <div className="bio-me">
+      <div css={bioMeStyles}>
         <StaticImage
-          className="bio-avatar"
+          css={bioMeAvatarStyles}
           layout="fixed"
           formats={["auto", "webp", "avif"]}
           src="../images/me.png"
@@ -60,9 +87,9 @@ const Bio: VFC = () => {
         {author?.name && (
           <p>
             {author?.summary && (
-              <>
+              <Fragment>
                 {author?.summary} <br />
-              </>
+              </Fragment>
             )}
             Written by <strong>{author.name}</strong>
           </p>
