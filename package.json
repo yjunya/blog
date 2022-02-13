@@ -8,8 +8,11 @@
     "url": "https://github.com/gatsbyjs/gatsby/issues"
   },
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
     "@react-icons/all-files": "^4.1.0",
     "gatsby": "^4.6.2",
+    "gatsby-plugin-emotion": "^7.7.0",
     "gatsby-plugin-feed": "^4.6.0",
     "gatsby-plugin-gatsby-cloud": "^4.6.0",
     "gatsby-plugin-google-analytics": "^4.6.0",
