@@ -1,5 +1,33 @@
 const path = require("path")
 const { createFilePath } = require("gatsby-source-filesystem")
+const Parser = require("rss-parser");
+const parser = new Parser();
+
+const ZENN_RSS_URL = "https://zenn.dev/yjunya/feed?all=1"
+const INTERNAL_TYPE_BLOG = "Blog"
+const DESCRIPTION_MAX_LENGTH = 50
+
+exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
+  const feed = await parser.parseURL(ZENN_RSS_URL);
+  const posts = feed.items.map((item) => {
+    const description = item.content.length > DESCRIPTION_MAX_LENGTH ? item.content.substring(0,DESCRIPTION_MAX_LENGTH) + "..." : item.content
+    return {
+      title: item.title,
+      date: new Date(item.pubDate).toISOString(),
+      link: item.link,
+      description: description,
+      img: item.enclosure.url,
+    }
+  })
+  return posts.map(post => actions.createNode({
+    ...post,
+    id: createNodeId(`${INTERNAL_TYPE_BLOG}-${post.link}`),
+    internal: {
+      type: INTERNAL_TYPE_BLOG,
+      contentDigest: createContentDigest(post)
+    }
+  }))
+}
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   const { createPage } = actions
@@ -96,6 +124,14 @@ exports.createSchemaCustomization = ({ actions }) => {
     type Social {
       twitter: String
       github: String
+    }
+
+    type Blog implements Node {
+      title: String
+      date: Date @dateformat
+      link: String
+      description: String
+      img: String
     }
 
     type MarkdownRemark implements Node {
