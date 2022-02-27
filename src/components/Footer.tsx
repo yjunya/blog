@@ -12,13 +12,19 @@ const footerStyles = css({
   color: "#808080",
 })
 
+const linkStyles = css({
+  color: "whitesmoke",
+})
+
 const Footer: VFC = () => {
   return (
     <footer css={footerStyles}>
       <Bio />
       <div>
         © {new Date().getFullYear()}, Built with{" "}
-        <a href="https://www.gatsbyjs.com">Gatsby</a>
+        <a css={linkStyles} href="https://www.gatsbyjs.com">
+          Gatsby
+        </a>
       </div>
     </footer>
   )

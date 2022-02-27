@@ -16,6 +16,15 @@ module.exports = {
   plugins: [
     "gatsby-plugin-emotion",
     {
+      resolve: `gatsby-plugin-google-fonts`,
+      options: {
+        fonts: [
+          `Noto Sans JP`,
+        ],
+        display: 'swap'
+      }
+    },
+    {
       resolve: `gatsby-plugin-root-import`,
       options: {
         "~": path.join(__dirname, "src"),
