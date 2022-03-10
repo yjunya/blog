@@ -15,8 +15,24 @@ const postsTopStyles = css({
 })
 
 const postListItemStyles = css({
+  backgroundColor: "#e3e3e3",
+  padding: "16px 32px",
+  borderRadius: "240px 15px 100px 15px / 15px 200px 15px 185px",
+  borderStyle: "solid",
+  borderWidth: "2px",
+  borderColor: "black",
   marginBottom: "32px",
   marginTop: "32px",
+  ":hover": {
+    backgroundColor: "#efefef",
+    padding: "14px 30px",
+    borderWidth: "4px",
+  },
+})
+
+const linkStyles = css({
+  color: "inherit",
+  textDecoration: "none",
 })
 
 type TPost = { date: string; title: String } & (
@@ -26,10 +42,9 @@ type TPost = { date: string; title: String } & (
       description: string
     }
   | {
-      type: "zenn"
+      type: "rss"
       link: string
       description: string
-      img: string
     }
 )
 
@@ -38,7 +53,6 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
   location,
 }) => {
   const siteTitle = data.site?.siteMetadata?.title || "Title"
-  // const posts = data.allMarkdownRemark.nodes
   const markdownPosts: TPost[] = data.allMarkdownRemark.nodes.map(d => {
     return {
       type: "markdown",
@@ -48,17 +62,16 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
       description: d.frontmatter?.description || d.excerpt || "",
     }
   })
-  const zennPosts: TPost[] = data.allBlog.nodes.map(d => {
+  const rssPosts: TPost[] = data.allBlog.nodes.map(d => {
     return {
-      type: "zenn",
+      type: "rss",
       title: d.title || "",
       date: d.date || "",
       link: d.link || "",
       description: d.description || "",
-      img: d.img || "",
     }
   })
-  const posts = [...markdownPosts, ...zennPosts].sort(
+  const posts = [...markdownPosts, ...rssPosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   )
 
@@ -79,9 +92,33 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
       <ol style={{ listStyle: "none" }}>
         {posts.map(post => {
           const title = post.title || ""
-          if (post.type === "zenn") {
+          if (post.type === "rss") {
             return (
               <li key={post.link}>
+                <a href={post.link} css={linkStyles}>
+                  <article
+                    css={postListItemStyles}
+                    itemScope
+                    itemType="http://schema.org/Article"
+                  >
+                    <header>
+                      <h2>
+                        <span itemProp="headline">{title}</span>
+                      </h2>
+                      <small>{new Date(post.date).toDateString()}</small>
+                    </header>
+                    <section>
+                      <p itemProp="description">{post.description}</p>
+                    </section>
+                  </article>
+                </a>
+              </li>
+            )
+          }
+
+          return (
+            <li key={post.slug}>
+              <Link to={post.slug} itemProp="url" css={linkStyles}>
                 <article
                   css={postListItemStyles}
                   itemScope
@@ -89,44 +126,20 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
                 >
                   <header>
                     <h2>
-                      <a href={post.link}>
-                        <span itemProp="headline">{title}</span>
-                      </a>
+                      <span itemProp="headline">{title}</span>
                     </h2>
                     <small>{new Date(post.date).toDateString()}</small>
                   </header>
                   <section>
-                    <p itemProp="description">{post.description}</p>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: post.description,
+                      }}
+                      itemProp="description"
+                    />
                   </section>
                 </article>
-              </li>
-            )
-          }
-
-          return (
-            <li key={post.slug}>
-              <article
-                css={postListItemStyles}
-                itemScope
-                itemType="http://schema.org/Article"
-              >
-                <header>
-                  <h2>
-                    <Link to={post.slug} itemProp="url">
-                      <span itemProp="headline">{title}</span>
-                    </Link>
-                  </h2>
-                  <small>{new Date(post.date).toDateString()}</small>
-                </header>
-                <section>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: post.description,
-                    }}
-                    itemProp="description"
-                  />
-                </section>
-              </article>
+              </Link>
             </li>
           )
         })}
@@ -163,7 +176,6 @@ export const pageQuery = graphql`
         date
         link
         description
-        img
       }
     }
   }

@@ -1,32 +1,47 @@
 const path = require("path")
 const { createFilePath } = require("gatsby-source-filesystem")
-const Parser = require("rss-parser");
-const parser = new Parser();
+const Parser = require("rss-parser")
+const parser = new Parser()
 
 const ZENN_RSS_URL = "https://zenn.dev/yjunya/feed?all=1"
+const ZENN_DESCRIPTION = "Link to Zenn"
+const NOTE_RSS_URL = "https://note.com/yjunya/rss"
+const NOTE_DESCRIPTION = "Link to Note"
 const INTERNAL_TYPE_BLOG = "Blog"
-const DESCRIPTION_MAX_LENGTH = 50
 
-exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
-  const feed = await parser.parseURL(ZENN_RSS_URL);
-  const posts = feed.items.map((item) => {
-    const description = item.content.length > DESCRIPTION_MAX_LENGTH ? item.content.substring(0,DESCRIPTION_MAX_LENGTH) + "..." : item.content
+exports.sourceNodes = async ({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) => {
+  const zennFeed = await parser.parseURL(ZENN_RSS_URL)
+  const zennPosts = zennFeed.items.map(item => {
     return {
       title: item.title,
       date: new Date(item.pubDate).toISOString(),
       link: item.link,
-      description: description,
-      img: item.enclosure.url,
+      description: ZENN_DESCRIPTION,
     }
   })
-  return posts.map(post => actions.createNode({
-    ...post,
-    id: createNodeId(`${INTERNAL_TYPE_BLOG}-${post.link}`),
-    internal: {
-      type: INTERNAL_TYPE_BLOG,
-      contentDigest: createContentDigest(post)
+  const noteFeed = await parser.parseURL(NOTE_RSS_URL)
+  const notePosts = noteFeed.items.map(item => {
+    return {
+      title: item.title,
+      date: new Date(item.pubDate).toISOString(),
+      link: item.link,
+      description: NOTE_DESCRIPTION,
     }
-  }))
+  })
+  return [...zennPosts, ...notePosts].map(post =>
+    actions.createNode({
+      ...post,
+      id: createNodeId(`${INTERNAL_TYPE_BLOG}-${post.link}`),
+      internal: {
+        type: INTERNAL_TYPE_BLOG,
+        contentDigest: createContentDigest(post),
+      },
+    })
+  )
 }
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
@@ -131,7 +146,6 @@ exports.createSchemaCustomization = ({ actions }) => {
       date: Date @dateformat
       link: String
       description: String
-      img: String
     }
 
     type MarkdownRemark implements Node {
