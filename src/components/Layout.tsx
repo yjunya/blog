@@ -18,7 +18,7 @@ const globalStyles = css({
   },
   body: {
     margin: 0,
-    backgroundColor: "#fffafa",
+    backgroundColor: "whitesmoke",
     fontFamily: "Noto Sans JP",
   },
 })
