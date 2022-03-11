@@ -101,7 +101,12 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
           if (post.type === "rss") {
             return (
               <li key={post.link}>
-                <a href={post.link} css={linkStyles}>
+                <a
+                  href={post.link}
+                  css={linkStyles}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <article
                     css={postListItemStyles}
                     itemScope
