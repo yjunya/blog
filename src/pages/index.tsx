@@ -14,6 +14,12 @@ const postsTopStyles = css({
   justifyContent: "center",
 })
 
+const orderedListStyles = css({
+  listStyle: "none",
+  paddingLeft: "32px",
+  paddingRight: "32px",
+})
+
 const postListItemStyles = css({
   backgroundColor: "#e3e3e3",
   padding: "16px 32px",
@@ -89,7 +95,7 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
       <Seo title="All posts" />
       <div css={postsTopStyles}>All Posts</div>
       <hr />
-      <ol style={{ listStyle: "none" }}>
+      <ol css={orderedListStyles}>
         {posts.map(post => {
           const title = post.title || ""
           if (post.type === "rss") {
