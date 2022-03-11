@@ -1,10 +1,11 @@
-const path = require("path");
+const path = require("path")
 
 module.exports = {
   siteMetadata: {
     title: "yjunya Blog",
     author: {
       name: "Junya Yanagisawa",
+      aboutMeUrl: "https://yjunya.github.io/",
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
     siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
@@ -18,11 +19,9 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [
-          `Noto Sans JP`,
-        ],
-        display: 'swap'
-      }
+        fonts: [`Noto Sans JP`],
+        display: "swap",
+      },
     },
     {
       resolve: `gatsby-plugin-root-import`,
@@ -146,6 +145,6 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
-    `gatsby-plugin-typegen`
+    `gatsby-plugin-typegen`,
   ],
 }
