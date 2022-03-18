@@ -3,7 +3,7 @@ const { createFilePath } = require("gatsby-source-filesystem")
 const Parser = require("rss-parser")
 const parser = new Parser()
 
-const ZENN_RSS_URL = "https://zenn.dev/yjunya/feed?all=1"
+const ZENN_RSS_URL = "https://zenn.dev/yjunya/feed?all=1&include_scraps=1"
 const ZENN_DESCRIPTION = "Link to Zenn"
 const NOTE_RSS_URL = "https://note.com/yjunya/rss"
 const NOTE_DESCRIPTION = "Link to Note"
