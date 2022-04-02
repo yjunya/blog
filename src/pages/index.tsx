@@ -93,6 +93,7 @@ const BlogIndex: FC<PageProps<GatsbyTypes.BlogIndexQuery>> = ({
   return (
     <Layout location={location} title={siteTitle}>
       <Seo title="All posts" />
+      <div css={{ paddingBottom: "5vh" }} />
       <div css={postsTopStyles}>All Posts</div>
       <hr />
       <ol css={orderedListStyles}>
