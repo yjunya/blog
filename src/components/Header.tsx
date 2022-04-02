@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { VFC } from "react"
+import { Fragment, VFC } from "react"
 import { jsx, css } from "@emotion/react"
 import { Link, PageProps, useStaticQuery, graphql } from "gatsby"
 
@@ -10,8 +10,7 @@ type TProps = { title: string } & Pick<
 
 const headerStyles = css({
   display: "flex",
-  position: "relative",
-  height: "15vh",
+  height: "10vh",
   justifyContent: "center",
   alignItems: "end",
   backgroundColor: "#330033",
@@ -20,23 +19,32 @@ const headerStyles = css({
 const containerStyles = css({
   display: "flex",
   position: "relative",
-  paddingBottom: "2vh",
   width: "80%",
-  justifyContent: "center",
-  alignItems: "end",
+  justifyContent: "space-between",
+  "@media (max-width: 600px)": {
+    width: "90%",
+  },
 })
 
+const titleContainerStyles = css({
+  display: "flex",
+  alignItems: "flex-end",
+  paddingBottom: "0.4vh",
+})
 const titleStyles = css({
   fontSize: "36px",
   color: "whitesmoke",
   textDecoration: "none",
-  margin: 0,
+})
+const aboutMeContainerStyles = css({
+  display: "flex",
+  alignItems: "flex-end",
+  paddingBottom: "1vh",
 })
 const aboutMeStyles = css({
-  position: "absolute",
+  fontSize: "16px",
   color: "whitesmoke",
   textDecoration: "none",
-  right: 0,
 })
 
 const Header: VFC<TProps> = ({ location, title }) => {
@@ -57,19 +65,21 @@ const Header: VFC<TProps> = ({ location, title }) => {
   return (
     <header css={headerStyles}>
       <div css={containerStyles}>
-        <h1>
+        <div css={titleContainerStyles}>
           <Link css={titleStyles} to="/">
             {title}
           </Link>
-        </h1>
-        <a
-          css={aboutMeStyles}
-          href={data.site?.siteMetadata?.author?.aboutMeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h3>About Me →</h3>
-        </a>
+        </div>
+        <div css={aboutMeContainerStyles}>
+          <a
+            css={aboutMeStyles}
+            href={data.site?.siteMetadata?.author?.aboutMeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            About Me →
+          </a>
+        </div>
       </div>
     </header>
   )

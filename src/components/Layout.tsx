@@ -25,9 +25,12 @@ const globalStyles = css({
 
 const mainStyles = css({
   margin: "0 auto",
-  maxWidth: "80vw",
+  maxWidth: "80%",
   minHeight: "60vh",
   padding: "10px",
+  "@media (max-width: 600px)": {
+    maxWidth: "95%",
+  },
 })
 
 const Layout: FC<TProps> = ({ location, title, children }) => {
